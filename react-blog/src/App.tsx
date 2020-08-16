@@ -1,8 +1,13 @@
 import React from "react";
+import { Button } from "antd";
 import "./App.less";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <Button type="primary">test</Button>
+    </div>
+  );
 }
 
 export default App;
