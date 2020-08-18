@@ -1,10 +1,12 @@
 import React from "react";
+import XiaojiejieItem from "./XiaojiejieItem";
 
 export interface Props {}
 
 export interface State {
   val: string;
   list: Array<any>;
+  color: string;
 }
 
 class Xiaojiejie extends React.Component<Props, State> {
@@ -13,6 +15,7 @@ class Xiaojiejie extends React.Component<Props, State> {
     this.state = {
       val: "",
       list: ["anmo", "jingyou"],
+      color: "a",
     };
   }
 
@@ -28,23 +31,41 @@ class Xiaojiejie extends React.Component<Props, State> {
       list.push(val);
     }
     this.setState({
-      ...this.state,
+      val: "",
       list,
     });
   };
+  delete(index: number) {
+    let list = this.state.list;
+    list.splice(index, 1);
+    this.setState({
+      ...this.state,
+      list,
+    });
+  }
   render() {
     return (
       <React.Fragment>
         <div>
           <input
+            className={this.state.color}
             type="text"
             value={this.state.val}
             onChange={this.inputChange}
           />
           <button onClick={this.add}>123</button>
           <ul>
-            {this.state.list.map((item) => {
-              return <li key={item}>{item}</li>;
+            {this.state.list.map((item, index) => {
+              return (
+                <XiaojiejieItem
+                  aa={item}
+                  key={item}
+                  index={index}
+                  delete={() => {
+                    this.delete(index);
+                  }}
+                ></XiaojiejieItem>
+              );
             })}
           </ul>
           <div>{this.state.val}</div>

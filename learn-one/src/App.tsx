@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Xiaojiejie from "./components/Xiaojiejie";
+import Xiaojiejie from "./components/jiejie/Xiaojiejie";
 
 function App() {
   return (
