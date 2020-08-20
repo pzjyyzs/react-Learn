@@ -1,0 +1,28 @@
+import React from "react";
+import _ from "lodash";
+
+export interface PaginationProps {
+  itemsCount: number;
+  pageSize: number;
+  onPageChange: any;
+}
+
+const Pagination: React.SFC<PaginationProps> = (props: PaginationProps) => {
+  const { itemsCount, pageSize } = props;
+  const pageCount = Math.ceil(itemsCount / pageSize);
+  if (pageCount === 1) return null;
+  const pages = _.range(1, pageCount + 1);
+  return (
+    <nav>
+      <ul className="pagination">
+        {pages.map((page) => (
+          <li className="page-item" key={page}>
+            <a className="page-link">{page}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default Pagination;

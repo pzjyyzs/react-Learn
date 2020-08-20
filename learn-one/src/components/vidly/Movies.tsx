@@ -1,6 +1,7 @@
 import React from "react";
 import { getMovies } from "../../api/movice/fakeMovieService";
 import Like from "../common/like";
+import Pagination from "../common/pagination";
 
 export interface MoviesProps {}
 
@@ -9,10 +10,12 @@ export interface MoviesState {}
 class Movies extends React.Component<MoviesProps, MoviesState> {
   state = {
     movies: getMovies(),
+    pageSize: 4,
   };
   handleDelete = (movie: any) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
     this.setState({
+      ...this.state,
       movies,
     });
   };
@@ -23,9 +26,13 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
     movies[index] = { ...movies[index] };
     movies[index].liked = !movies[index].liked;
     this.setState({
+      ...this.state,
       movies,
     });
   };
+
+  handlePageChange = (page: number) => {};
+
   render() {
     if (this.state.movies.length === 0) return <p>no movie in the database</p>;
     return (
@@ -71,6 +78,11 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
             ))}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={this.state.movies.length}
+          pageSize={this.state.pageSize}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
