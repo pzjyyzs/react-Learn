@@ -16,6 +16,16 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
       movies,
     });
   };
+
+  handleLikeClick = (movie: any) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({
+      movies,
+    });
+  };
   render() {
     if (this.state.movies.length === 0) return <p>no movie in the database</p>;
     return (
@@ -40,7 +50,12 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
                 <td>
-                  <Like></Like>
+                  <Like
+                    liked={movie.liked}
+                    onClick={() => {
+                      this.handleLikeClick(movie);
+                    }}
+                  ></Like>
                 </td>
                 <td>
                   <button

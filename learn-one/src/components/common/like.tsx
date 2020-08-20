@@ -1,14 +1,24 @@
 import * as React from "react";
 import { Component } from "react";
 
-export interface LikeProps {}
-
-export interface LikeState {}
-
-class Like extends React.Component<LikeProps, LikeState> {
-  render() {
-    return <i className="fa fa-heart-o" aria-hidden="true"></i>;
-  }
+export interface LikeProps {
+  liked: boolean | undefined;
+  onClick: any;
 }
+
+const Like: React.SFC<LikeProps> = (props: LikeProps) => {
+  let classes = "fa fa-heart";
+  if (!props.liked) {
+    classes += "-o";
+  }
+  return (
+    <i
+      onClick={props.onClick}
+      className={classes}
+      style={{ cursor: "pointer" }}
+      aria-hidden="true"
+    ></i>
+  );
+};
 
 export default Like;
