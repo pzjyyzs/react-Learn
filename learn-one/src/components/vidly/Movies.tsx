@@ -1,5 +1,6 @@
 import React from "react";
 import { getMovies } from "../../api/movice/fakeMovieService";
+import Like from "../common/like";
 
 export interface MoviesProps {}
 
@@ -28,6 +29,7 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
               <th>stock</th>
               <th>Rate</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +39,9 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
                 <td>{movie.genre.name}</td>
                 <td>{movie.numberInStock}</td>
                 <td>{movie.dailyRentalRate}</td>
+                <td>
+                  <Like></Like>
+                </td>
                 <td>
                   <button
                     className="btn btn-danger btn-sm"
