@@ -11,6 +11,7 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
   state = {
     movies: getMovies(),
     pageSize: 4,
+    currentPage: 1,
   };
   handleDelete = (movie: any) => {
     const movies = this.state.movies.filter((m) => m._id !== movie._id);
@@ -31,13 +32,20 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
     });
   };
 
-  handlePageChange = (page: number) => {};
+  handlePageChange = (page: number) => {
+    this.setState({
+      ...this.state,
+      currentPage: page,
+    });
+  };
 
   render() {
-    if (this.state.movies.length === 0) return <p>no movie in the database</p>;
+    const { length: count } = this.state.movies;
+    const { pageSize, currentPage } = this.state;
+    if (count === 0) return <p>no movie in the database</p>;
     return (
       <React.Fragment>
-        <p>Showing {this.state.movies.length} movies in the database</p>
+        <p>Showing {count} movies in the database</p>
         <table className="table">
           <thead>
             <tr>
@@ -79,8 +87,9 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
           </tbody>
         </table>
         <Pagination
-          itemsCount={this.state.movies.length}
-          pageSize={this.state.pageSize}
+          itemsCount={count}
+          pageSize={pageSize}
+          currentPage={currentPage}
           onPageChange={this.handlePageChange}
         />
       </React.Fragment>
