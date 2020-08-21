@@ -2,6 +2,7 @@ import React from "react";
 import { getMovies } from "../../api/movice/fakeMovieService";
 import Like from "../common/like";
 import Pagination from "../common/pagination";
+import { paginate } from "../../utils/paginate";
 
 export interface MoviesProps {}
 
@@ -41,8 +42,10 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage } = this.state;
+    const { pageSize, currentPage, movies } = this.state;
     if (count === 0) return <p>no movie in the database</p>;
+
+    const moviesCut = paginate(movies, currentPage, pageSize);
     return (
       <React.Fragment>
         <p>Showing {count} movies in the database</p>
@@ -58,7 +61,7 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((movie) => (
+            {moviesCut.map((movie) => (
               <tr key={movie._id}>
                 <td>{movie.title}</td>
                 <td>{movie.genre.name}</td>
