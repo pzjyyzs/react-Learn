@@ -1,5 +1,6 @@
 import React from "react";
 import _ from "lodash";
+import PropTypes from "prop-types";
 
 export interface PaginationProps {
   itemsCount: number;
@@ -31,4 +32,10 @@ const Pagination: React.SFC<PaginationProps> = (props: PaginationProps) => {
   );
 };
 
+Pagination.propTypes = {
+  itemsCount: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
+};
 export default Pagination;
