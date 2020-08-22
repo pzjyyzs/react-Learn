@@ -63,22 +63,13 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
     });
   };
 
-  handleSort = (path: string) => {
-    console.log(path);
-    const sortColumn = { ...this.state.sortColumn };
-    if (sortColumn.path === path) {
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    } else {
-      sortColumn.path = path;
-      sortColumn.order = "asc";
-    }
+  handleSort = (sortColumn: any) => {
     this.setState({
       sortColumn,
     });
   };
 
-  render() {
-    const { length: count } = this.state.movies;
+  getPagedData = () => {
     const {
       pageSize,
       currentPage,
@@ -86,7 +77,6 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
       movies,
       sortColumn,
     } = this.state;
-    if (count === 0) return <p>no movie in the database</p>;
     const filtered =
       JSON.stringify(selectedGenre) !== "{}" && selectedGenre._id
         ? movies.filter((m) => {
@@ -100,6 +90,14 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
       [sortColumn.order as "asc"]
     );
     const moviesCut = paginate(stored, currentPage, pageSize);
+    return { totalCount: filtered.length, moviesCut: moviesCut };
+  };
+  render() {
+    const { length: count } = this.state.movies;
+    const { pageSize, currentPage, selectedGenre, sortColumn } = this.state;
+    if (count === 0) return <p>no movie in the database</p>;
+
+    const { totalCount, moviesCut } = this.getPagedData();
     return (
       <div className="row">
         <div className="col-3">
@@ -110,15 +108,16 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
           ></ListGroup>
         </div>
         <div className="col">
-          <p>Showing {filtered.length} movies in the database</p>
+          <p>Showing {totalCount} movies in the database</p>
           <MoviesTable
             moviesCut={moviesCut}
             onLike={this.handleLikeClick}
             onDelete={this.handleDelete}
             onSort={this.handleSort}
+            sortColumn={sortColumn}
           />
           <Pagination
-            itemsCount={filtered.length}
+            itemsCount={totalCount}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
