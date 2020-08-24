@@ -2,6 +2,7 @@ import * as React from "react";
 
 import Like from "../common/like";
 import Table from "../common/table";
+import { Link } from "react-router-dom";
 
 export interface MoviesTableProps {
   moviesCut: Array<any>;
@@ -15,7 +16,13 @@ export interface MoviesTableState {}
 
 class MoviesTable extends React.Component<MoviesTableProps, MoviesTableState> {
   columns = [
-    { path: "title", label: "Title" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie: any) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
+    },
     { path: "genre.name", label: "Genre" },
     { path: "NumberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
