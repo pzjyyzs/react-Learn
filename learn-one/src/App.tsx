@@ -7,6 +7,7 @@ import NotFound from "./components/vidly/notFound";
 import NavBar from "./components/vidly/navBar";
 import MovieForm from "./components/vidly/movieForm";
 import "./App.css";
+import LoginForm from "./components/vidly/loginForm";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <main className="App">
         <Switch>
           <Route path="/movies/:id" component={MovieForm}></Route>
+          <Route path="/login" component={LoginForm}></Route>
           <Route path="/movies" component={Movies}></Route>
           <Route path="/customers" component={Customers}></Route>
           <Route path="/rentals" component={Rentals}></Route>
