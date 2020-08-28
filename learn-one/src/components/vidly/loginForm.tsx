@@ -19,7 +19,8 @@ class LoginForm extends Component<LoginFormProps, LoginFormState> {
     password: Joi.string().required(),
   };
   validate = () => {
-    (Joi as any).validate(this.state.account, this.schema);
+    console.log(Joi);
+    //Joi.validate(this.state.account, this.schema);
     const errors: any = {};
 
     const { account } = this.state;
