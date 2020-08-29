@@ -3,6 +3,19 @@ import axios from "axios";
 import "./App.css";
 
 const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
+
+axios.interceptors.response.use(null, (error) => {
+  if (
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500
+  ) {
+    return Promise.reject(error);
+  }
+  console.log("logging the error", ex);
+
+  return Promise.reject(error);
+});
 class App extends Component {
   state = {
     posts: [],
@@ -20,12 +33,23 @@ class App extends Component {
     this.setState({ posts });
   };
 
-  handleUpdate = (post) => {
-    console.log("Update", post);
+  handleUpdate = async (post) => {
+    post.title = "update";
+    await axios.put(`${apiEndpoint}/${post.id}`, p);
+    const posts = [...this.state.post];
+    const index = posts.indexOf(post);
+    posts[index] = { ...post };
+    this.setState({ posts });
   };
-
-  handleDelete = (post) => {
-    console.log("Delete", post);
+  handleDelete = async (post) => {
+    const originalPosts = this.state.posts;
+    const posts = this.state.post.filter((item) => item.id !== post.id);
+    this.setState({ posts });
+    try {
+      await axios.delete(`${apiEndpoint}/${post.id}`);
+    } catch (e) {
+      this.setState({ posts: originalPosts });
+    }
   };
 
   render() {
