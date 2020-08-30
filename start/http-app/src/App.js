@@ -1,41 +1,30 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import http from "./services/httpServices";
+import config from "./config.json";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
-
-axios.interceptors.response.use(null, (error) => {
-  if (
-    error.response &&
-    error.response.status >= 400 &&
-    error.response.status < 500
-  ) {
-    return Promise.reject(error);
-  }
-  console.log("logging the error", ex);
-
-  return Promise.reject(error);
-});
 class App extends Component {
   state = {
     posts: [],
   };
 
   async componentDidMount() {
-    const { data: posts } = await axios.get(apiEndpoint);
+    const { data: posts } = await http.get(config.apiEndpoint);
     this.setState({ posts });
   }
 
   handleAdd = async () => {
     const obj = { title: "a", body: "b" };
-    const { data: post } = await axios.post(apiEndpoint, obj);
+    const { data: post } = await http.post(config.apiEndpoint, obj);
     const posts = [post, ...this.state.posts];
     this.setState({ posts });
   };
 
   handleUpdate = async (post) => {
     post.title = "update";
-    await axios.put(`${apiEndpoint}/${post.id}`, p);
+    await http.put(`${config.apiEndpoint}/${post.id}`, p);
     const posts = [...this.state.post];
     const index = posts.indexOf(post);
     posts[index] = { ...post };
@@ -46,7 +35,7 @@ class App extends Component {
     const posts = this.state.post.filter((item) => item.id !== post.id);
     this.setState({ posts });
     try {
-      await axios.delete(`${apiEndpoint}/${post.id}`);
+      await http.delete(`${config.apiEndpoint}/${post.id}`);
     } catch (e) {
       this.setState({ posts: originalPosts });
     }
@@ -55,6 +44,7 @@ class App extends Component {
   render() {
     return (
       <React.Fragment>
+        <ToastContainer />
         <button className="btn btn-primary" onClick={this.handleAdd}>
           Add
         </button>
