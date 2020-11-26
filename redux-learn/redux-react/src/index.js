@@ -1,42 +1,45 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-
-const stateChanger = (state, action) => {
-  if (state === undefined) {
-    return { n: 0 }
-  } else {
-    if (action.type === 'add') {
-      let newState = { n: state.n + action.payload }
-      return newState
-    } else {
-      return state
-    }
+import { createStore } from './store';
+const appState = {
+  title: {
+    text: 'react',
+    color: 'red',
+  },
+  content: {
+    text: 'react',
+    color: 'blue'
   }
 }
-const store = createStore(stateChanger)
-render()
-store.subscribe(() => {
-  render()
-})
 
-function render() {
-
-  ReactDOM.render(
-    <React.StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </React.StrictMode>,
-    document.getElementById('root')
-  );
+function renderApp(appState) {
+  renderTitle(appState.title)
+  renderContent(appState.content)
 }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+function renderTitle(title) {
+  const titleDOM = document.getElementById('title')
+  titleDOM.innerHTML = title.text;
+  titleDOM.style.color = title.color
+}
+
+function renderContent(content) {
+  const contentDOM = document.getElementById('content')
+  contentDOM.innerHTML = content.text;
+  contentDOM.style.color = content.color;
+}
+
+
+function stateChanger(state, action) {
+  console.log(action)
+  if (action.type === 'UPDATE_TITLE_TEXT') {
+    state.title.text = action.text
+  } else if (action.type === 'UPDATE_TITLE_COLOR') {
+    state.title.color = action.color
+  }
+}
+
+const store = createStore(appState, stateChanger)
+store.subscribe(() => renderApp(store.getState()))
+renderApp(store.getState())
+store.dispatch({ type: 'UPDATE_TITLE_TEXT', text: 'title_text' })
+store.dispatch({ type: 'UPDATE_TITLE_COLOR', color: 'orange' })
+
