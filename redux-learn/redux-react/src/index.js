@@ -29,15 +29,40 @@ function renderContent(content) {
 
 
 function stateChanger(state, action) {
-  console.log(action)
+  if (!state) {
+    return {
+      title: {
+        text: 'react',
+        color: 'red',
+      },
+      content: {
+        text: 'react',
+        color: 'blue'
+      }
+    }
+  }
   if (action.type === 'UPDATE_TITLE_TEXT') {
-    state.title.text = action.text
+     return {
+       ...state,
+       title: {
+        ...state.title,
+        text: action.text
+       }
+     }
   } else if (action.type === 'UPDATE_TITLE_COLOR') {
-    state.title.color = action.color
+    return {
+      ...state,
+      title: {
+        ...state.title,
+        color: action.color
+      }
+    }
+  } else {
+    return state
   }
 }
 
-const store = createStore(appState, stateChanger)
+const store = createStore(stateChanger)
 store.subscribe(() => renderApp(store.getState()))
 renderApp(store.getState())
 store.dispatch({ type: 'UPDATE_TITLE_TEXT', text: 'title_text' })

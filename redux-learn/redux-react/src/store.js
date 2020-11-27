@@ -1,18 +1,18 @@
 
-export function createStore(state, stateChanger) {
+export function createStore(reducer) {
+    let state = null;
     const listeners = [];
 
     const subscribe = (listener) =>{ 
-        console.log(listener)
         listeners.push(listener)
     }
     const getState = () => state
     const dispatch = (action) => {
-        stateChanger(state, action)
+        state = reducer(state, action)
         listeners.forEach((listener) =>{ 
-            console.log(state)
             listener()
         })
     }
+    dispatch({})
     return { getState, dispatch, subscribe }
 }
