@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Discover = () => {
+const Recommend = () => {
     return (
         <div>
-            Discover
+            recommend
         </div>
     );
 }
 
-export default Discover;
+export default Recommend;

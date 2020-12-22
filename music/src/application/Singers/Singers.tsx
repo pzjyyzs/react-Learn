@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Friend = () => {
+const Singers = () => {
     return (
         <div>
-            friend
+            singer
         </div>
     );
 }
 
-export default Friend;
+export default Singers;

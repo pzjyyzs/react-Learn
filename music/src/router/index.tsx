@@ -1,32 +1,39 @@
-import Discover from "@/pages/discover/Discover";
-import Friend from "@/pages/friend/Friend";
-import Mine from "@/pages/mine/Mine";
-import NotFound  from '@/pages/NotFound/NotFound';
 import React from "react";
 import { Redirect } from "react-router-dom";
+import Home from "@/application/Home/Home";
+import Recommend from "@/application/Recommend/Recommend";
+import Singers from "@/application/Singers/Singers";
+import Rank from "@/application/Rank/Rank";
 
 
 const routes = [
     {
         path: '/',
-        exact: true,
-        render: () => <Redirect to={"/discover"} />,
+        component: Home,
+        routes: [
+            {
+                path: '/',
+                exact: true,
+                render: () => (
+                    <Redirect to={"/recommemd"} />
+                )
+            },
+            {
+                path: '/recommemd',
+                component: Recommend
+            },
+            {
+                path: '/singers',
+                component: Singers
+            },
+            {   
+                path: '/rank',
+                component:Rank
+            }
+       ]
     },
-    {
-        path: '/mine',
-        component: Mine
-    },
-    {
-        path: '/friend',
-        component: Friend
-    },
-    {   path: '/discover',
-        component:Discover
-    },
-    {
-        path: '*',
-        component:NotFound
-    }
+   
+    
 ]
 
 export default routes;
