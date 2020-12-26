@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Swiper from 'swiper';
-import './style'
+import { SliderContainer } from './style';
+import 'swiper/dist/css/swiper.css'
+import Swiper  from 'swiper';
 
 interface SliderProps {
     bannerList: Array<{imageUrl: string}>
@@ -20,14 +21,27 @@ const Slider = ({ bannerList }: SliderProps) => {
             });
             setSliderSwiper(newSliderSwiper)
         }
-        return () => {
-            
-        }
     }, [bannerList.length, sliderSwiper])
     return (
-        <div>
-            q
-        </div>
+        <SliderContainer>
+            <div className='slider-container'>
+                <div className="swiper-wrapper">
+                    {
+                        bannerList.map((slider, index) => {
+                            return (
+                                <div className="swiper-slide" key={slider.imageUrl + index}>
+                                    <div className="slider-nav">
+                                        <img src={slider.imageUrl} alt="推荐" width='100%' height='100%' />
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <div className="swiper-pagination"></div>
+            </div>
+            <div className="before"></div>
+        </SliderContainer>
     );
 }
 
