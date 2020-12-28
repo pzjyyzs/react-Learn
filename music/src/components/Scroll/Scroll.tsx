@@ -47,6 +47,30 @@ const Scroll = forwardRef((props: propsScroll, ref) => {
             bScroll.off('scrollEnd');
         }
     }, [pullUp, bScroll])
+
+    useEffect(() => {
+        if (!bScroll || !pullUp) return;
+        bScroll.on('scrollEnd', () => {
+            if (bScroll.y <= bScroll.maxScrollY + 100) {
+                pullUp()
+            }
+        });
+        return () => {
+            bScroll.off('scrollEnd')
+        }
+    }, [pullUp, bScroll])
+
+    useEffect(() => {
+        if (!bScroll || !pullDown) return;
+        bScroll.on('touchEnd', (pos: any) => {
+            if (pos.y > 50) {
+                pullDown()
+            }
+        })
+        return () => {
+            bScroll.off('touchEnd')
+        }
+    }, [pullDown, bScroll])
     return (
         <div>
             
