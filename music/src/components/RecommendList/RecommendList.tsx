@@ -6,7 +6,7 @@ import { List, ListItem, ListWrapper } from './style.js';
 interface RecommendListProps {
     recommendList: Array<{ id: number; picUrl: string; playCount: number;name: string;}>;
 }
-const RecommendList = ({ recommendList }: RecommendListProps) => {
+const RecommendList:React.FunctionComponent<RecommendListProps> = ({ recommendList }) => {
     return (
         <ListWrapper>
             <h1 className="title">推荐歌单</h1>

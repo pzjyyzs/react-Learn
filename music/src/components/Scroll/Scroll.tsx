@@ -1,20 +1,27 @@
 import BScroll from 'better-scroll';
-import React, { forwardRef, useState, useRef, useEffect  } from 'react';
+import React, { forwardRef, useState, useRef, useEffect, useImperativeHandle  } from 'react';
+import styled from'styled-components';
 
 interface propsScroll {
-    direction: 'vertical' | 'horizental';
-    click: boolean;
-    refresh: boolean;
-    onScroll: () => void;
-    pullUp: () => void;
-    pullDown: () => void;
-    pullUpLoading: boolean;
-    pullDownLoading: boolean;
-    bounceTop: boolean;
-    bounceBottom: boolean;
+    direction?: 'vertical' | 'horizental';
+    click?: boolean;
+    refresh?: boolean;
+    onScroll?: () => void;
+    pullUp?: () => void;
+    pullDown?: () => void;
+    pullUpLoading?: boolean;
+    pullDownLoading?: boolean;
+    bounceTop?: boolean;
+    bounceBottom?: boolean;
 }
 
-const Scroll = forwardRef((props: propsScroll, ref) => {
+const ScrollContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+`
+
+const Scroll:React.FunctionComponent<propsScroll> = forwardRef((props, ref) => {
     const { direction, click, refresh, pullUpLoading, pullDownLoading, bounceTop, bounceBottom, pullUp, pullDown, onScroll } = props;
     const [bScroll, setBScroll] = useState<any>({});
     const scrollContaninerRef = useRef<any>();
@@ -71,10 +78,27 @@ const Scroll = forwardRef((props: propsScroll, ref) => {
             bScroll.off('touchEnd')
         }
     }, [pullDown, bScroll])
+
+    useImperativeHandle(
+        ref,
+        () => ({
+            refresh() {
+                if (bScroll) {
+                    bScroll.refresh();
+                    bScroll.scrollTo(0, 0) 
+                }
+            },
+            getBScroll() {
+                if (bScroll) {
+                    return bScroll
+                }
+            }
+        }),
+    )
     return (
-        <div>
-            
-        </div>
+        <ScrollContainer ref={scrollContaninerRef}>
+            { props.children }
+        </ScrollContainer>
     );
 })
 

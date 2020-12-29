@@ -5,7 +5,6 @@ import { Tab, TabItem, Top } from './style';
 
 const Home = (props: any) => {
     const { route }  = props;
-    console.log(props)
     return (
         <div>
             <Top>
