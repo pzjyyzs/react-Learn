@@ -6,9 +6,9 @@ interface propsScroll {
     direction?: 'vertical' | 'horizental';
     click?: boolean;
     refresh?: boolean;
-    onScroll?: () => void;
-    pullUp?: () => void;
-    pullDown?: () => void;
+    onScroll?: null | (() => void);
+    pullUp?: null | (() => void);
+    pullDown?: null | (() => void);
     pullUpLoading?: boolean;
     pullDownLoading?: boolean;
     bounceTop?: boolean;
@@ -22,7 +22,7 @@ const ScrollContainer = styled.div`
 `
 
 const Scroll:React.FunctionComponent<propsScroll> = forwardRef((props, ref) => {
-    const { direction, click, refresh, pullUpLoading, pullDownLoading, bounceTop, bounceBottom, pullUp, pullDown, onScroll } = props;
+    const { direction, click, bounceTop, bounceBottom, pullUp, pullDown,  } = props;
     const [bScroll, setBScroll] = useState<any>({});
     const scrollContaninerRef = useRef<any>();
     useEffect(() => {
@@ -38,9 +38,9 @@ const Scroll:React.FunctionComponent<propsScroll> = forwardRef((props, ref) => {
         })
         setBScroll(scroll);
         return () => {
-            setBScroll({})
+            setBScroll(null)
         }
-    }, [])
+    }, [direction, click, bounceTop, bounceBottom])
 
     useEffect(() => {
         if (!bScroll || !pullUp) return;
@@ -51,7 +51,7 @@ const Scroll:React.FunctionComponent<propsScroll> = forwardRef((props, ref) => {
             }
         });
         return () => {
-            bScroll.off('scrollEnd');
+           bScroll.off('scrollEnd');
         }
     }, [pullUp, bScroll])
 
@@ -61,7 +61,7 @@ const Scroll:React.FunctionComponent<propsScroll> = forwardRef((props, ref) => {
             if (bScroll.y <= bScroll.maxScrollY + 100) {
                 pullUp()
             }
-        });
+        }); 
         return () => {
             bScroll.off('scrollEnd')
         }
@@ -106,11 +106,11 @@ Scroll.defaultProps = {
     direction: "vertical",
     click: true,
     refresh: true,
-    onScroll: () => null,
+    onScroll: null,
     pullUpLoading: true,
     pullDownLoading: false,
-    pullUp: () => null,
-    pullDown: () => null,
+    pullUp: null,
+    pullDown: null,
     bounceTop: true,
     bounceBottom: true
 }
