@@ -3,7 +3,7 @@
     "@sentry/react": "^5.22.3",
     "@sentry/tracing": "^5.22.3",
     "@types/lodash": "^4.14.159",
-    "axios": "0.18",
+    "axios": "0.21",
     "lodash": "4.17.10",
     "react-toastify": "4.1"
   }
